@@ -24,8 +24,8 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
     private long tMensaje;
     private Image dbImage;
     private Graphics dbg;
-    private SoundClip shoot;
-    private SoundClip bang;
+    private SoundClip happy;
+    private SoundClip sad;
 
     //Variables de control de tiempo de la animacion
     private long tiempoActual;
@@ -52,7 +52,11 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         Base.setW(WIDTH);
         Base.setH(HEIGHT);
         pelota = new Pelota(0,0);
+        pelota.setPosX(WIDTH/5 - pelota.getAncho());
+        pelota.setPosY(2*HEIGHT/5 - pelota.getAlto());
         canasta = new Canasta(0,0);
+        canasta.setPosX((int)(Math.random()*(WIDTH/2 - canasta.getAncho())) + WIDTH/2);
+        canasta.setPosY(HEIGHT - 3*canasta.getAlto()/2);
 
         pausa = false;
         tMensaje = 500;
@@ -62,8 +66,8 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
 
         //Pinta el fondo del Applet de color blanco
         setBackground(Color.white);
-        bang = new SoundClip("sounds/shotgun.wav");
-        shoot = new SoundClip("sounds/skorpion.wav");
+        sad = new SoundClip();
+        happy = new SoundClip();
         
     }
     

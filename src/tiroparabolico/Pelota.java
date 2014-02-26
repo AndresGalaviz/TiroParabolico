@@ -80,8 +80,8 @@ public class Pelota extends Base {
     /**
      * Regresa el valor de vx necesario para que la pelota llegue al punto
      * (posX, posY) dado el valor actual de vy y aceleracion.
-     * @param posX
-     * @param posY
+     * @param posX coordenada x del punto deseado
+     * @param posY coordenada y del punto deseado
      * @return 
      */
     private double getVx(double posX, double posY) {
