@@ -14,25 +14,94 @@ import java.awt.Toolkit;
  */
 public class Pelota extends Base {
     
-    private double dx;
-    private double dy;
-    private static double aceleracion = .5;
+    private double vx;
+    private double vy;
+    private double x;
+    private double y;
+    private boolean mov;
+    private long startTime;
+    private static double aceleracion = 9;
     
+    /**
+     * Metodo constructor.
+     * @param posX coordenada x inicial.
+     * @param posY coordenada y inicial.
+     */
     public Pelota(int posX, int posY) {
         super(posX, posY, crearAnimacionPelota());
+        x = posX;
+        y = posY;
+        reaparecer();
+    }
+
+    /**
+     * <code>Pelota</code> reaparece en su posicion original.
+     */
+    public void reaparecer() {
+        setDoublePosX(x);
+        setDoublePosY(y);
+        mov = false;
     }
     
-    public void empezar() {
-        setPosX(200);
-        setPosY(200);
-        dy = -Math.random()*2;
-        dx = Math.random()*3;
+    /**
+     * Inicia el movimiento de <code>Pelota<code>.
+     */
+    public void lanzar() {
+        mov = true;
+        startTime = System.currentTimeMillis();
+        double maxVy = getMaxVy();
+        double minVy = .1*maxVy;
+        vy = Math.random()*(maxVy - minVy) + minVy;
+        double maxVx = getVx(getW() - getAncho(), getH() - getAlto());
+        double minVx = getVx(getW()/2, getH() - getAlto());
+        vx = Math.random()*(maxVx - minVx) + minVx;
     }
     
-    public void actualiza() {
-        setDoublePosX(getDoublePosX() + dx);
-        setDoublePosY(getDoublePosY() + dy);
-        dy += aceleracion;
+    /**
+     * La pelota se mueve de acuerdo al tiempo, velocidad en X y Y, y gravedad.
+     */
+    public void avanza() {
+        if (mov) {
+            double time = (double)(System.currentTimeMillis() - startTime)/1000;
+            setDoublePosX(x + vx * time);
+            setDoublePosY(y - (vy*time - 0.5*aceleracion*time*time));
+        }
+    }
+    
+    /**
+     * Regresa el mayor valor de vy para que el objeto no se salga por la
+     * parte superior del <code>JFrame</code>
+     * @return un <code>double</code>.
+     */
+    private double getMaxVy() {
+        return Math.sqrt(2*y*aceleracion);
+    }
+    
+    /**
+     * Regresa el valor de vx necesario para que la pelota llegue al punto
+     * (posX, posY) dado el valor actual de vy y aceleracion.
+     * @param posX
+     * @param posY
+     * @return 
+     */
+    private double getVx(double posX, double posY) {
+        double t = (vy + Math.sqrt(vy*vy - 2*aceleracion*(y - posY)))/aceleracion;
+        return (posX-x)/t;
+    }
+    
+    public boolean contiene(int posX, int posY) {
+        int distCentroX = (getPosX() + getAncho()/2) - posX;
+        int distCentroY = (getPosY() + getAlto()/2) - posY;
+        
+        return (distCentroX*distCentroX + distCentroY*distCentroY <= getAncho()*getAncho()/4);
+    }
+    
+    public void setMov(boolean m) {
+        mov = m;
+    }
+    
+    public boolean getMov() {
+        return mov;
     }
     
     public static void setAceleracion(double a) {
