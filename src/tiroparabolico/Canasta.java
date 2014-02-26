@@ -11,7 +11,12 @@ package tiroparabolico;
  * @author Alberto
  */
 public class Canasta extends Base {
-    public Canasta(int posX, int posY, Animacion animacion) {
-        super(posX, posY, animacion);
+    public Canasta(int posX, int posY) {
+        super(posX, posY, crearAnimacionCanasta());
+    }
+    
+    private static Animacion crearAnimacionCanasta() {
+        Animacion anim = new Animacion();
+        return anim;
     }
 }

@@ -14,16 +14,23 @@ public class Pelota extends Base {
     
     private double dx;
     private double dy;
-    private static double aceleracion = 9;
+    private static double aceleracion = .5;
     
-    public Pelota(int posX, int posY, Animacion animacion) {
-        super(posX, posY, animacion);
+    public Pelota(int posX, int posY) {
+        super(posX, posY, crearAnimacionPelota());
+    }
+    
+    public void empezar() {
+        setPosX(200);
+        setPosY(200);
+        dy = -Math.random()*2;
+        dx = Math.random()*3;
     }
     
     public void actualiza() {
-        dy += aceleracion;
         setDoublePosX(getDoublePosX() + dx);
         setDoublePosY(getDoublePosY() + dy);
+        dy += aceleracion;
     }
     
     public static void setAceleracion(double a) {
@@ -32,5 +39,10 @@ public class Pelota extends Base {
     
     public static double getAceleracion() {
         return aceleracion;
+    }
+    
+    private static Animacion crearAnimacionPelota() {
+        Animacion anim = new Animacion();
+        return anim;
     }
 }

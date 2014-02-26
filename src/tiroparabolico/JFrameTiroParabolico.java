@@ -20,8 +20,6 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
     private Pelota pelota;
     private Canasta canasta;
     private boolean pausa;
-    private int num;
-    private int direccion;
     private long tiempo;
     private long tMensaje;
     private Image dbImage;
@@ -51,25 +49,15 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
     public void init(){
         addKeyListener(this);
         addMouseListener(this);
-        malos = new LinkedList();
-        bueno = new Bueno(getWidth() / 2, getHeight() / 2);
-        bueno.setPosX(bueno.getPosX() - bueno.getAncho() / 2);
-        bueno.setPosY(bueno.getPosY() - bueno.getAlto() / 2);
+        pelota = new Pelota(0,0);
+        pelota.empezar();
+        canasta = new Canasta(0,0);
+
         pausa = false;
         tMensaje = 500;
         tiempo = System.currentTimeMillis() - tMensaje - 1;
         Random r = new Random();
-        // Al azar, elige la cantidad de malos que aparecerán
-        int[] opNum = {6, 10, 12};
-        num = opNum[r.nextInt(3)];
-        direccion = 0;
-        for (int i = 0; i < num; i++) {
-            int velocidad = r.nextInt(4) + 3;
-            Malo malo = new Malo(0, 0, i, (int) (2 * (i % 2 - 0.5)), velocidad);
-            int posY = r.nextInt((getHeight() - malo.getAlto()) * 3 / 4) + getHeight() / 8;
-            malo.reaparece(getWidth(), getHeight());
-            malos.add(malo);
-        }
+
         //Pinta el fondo del Applet de color blanco
         setBackground(Color.white);
         bang = new SoundClip("sounds/shotgun.wav");
