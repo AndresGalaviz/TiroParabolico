@@ -9,8 +9,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.LinkedList;
-import java.util.Random;
 import javax.swing.JFrame;
 
 public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListener, MouseListener {
@@ -20,6 +18,8 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
     private Pelota pelota;
     private Canasta canasta;
     private boolean pausa;
+    private int vidas;
+    private int score;
     private long tiempo;
     private long tMensaje;
     private Image dbImage;
@@ -49,14 +49,16 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
     public void init(){
         addKeyListener(this);
         addMouseListener(this);
+        Base.setW(WIDTH);
+        Base.setH(HEIGHT);
         pelota = new Pelota(0,0);
-        pelota.empezar();
         canasta = new Canasta(0,0);
 
         pausa = false;
         tMensaje = 500;
         tiempo = System.currentTimeMillis() - tMensaje - 1;
-        Random r = new Random();
+        vidas = 5;
+        score = 0;
 
         //Pinta el fondo del Applet de color blanco
         setBackground(Color.white);
@@ -121,36 +123,18 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         //Guarda el tiempo actual
         tiempoActual += tiempoTranscurrido;
 
-        //Se mueve malo de acuerdo a su direccion y velocidad
-        for (Malo malo : malos) {
-            malo.setPosX(malo.getPosX() + malo.getDireccion() * malo.getVelocidad());
+        pelota.avanza();
+        
+        if (canasta.getMoveLeft()) {
+            canasta.setPosX(canasta.getPosX() - 3);
         }
-
-        //Se mueve bueno de acuerdo a la direccion actual
-        switch (direccion) {
-            case 1: { // arriba
-                bueno.setPosY(bueno.getPosY() - 3);
-                break;
-            }
-            case 2: { // derecha
-                bueno.setPosX(bueno.getPosX() + 3);
-                break;
-            }
-            case 3: { // abajo
-                bueno.setPosY(bueno.getPosY() + 3);
-                break;
-            }
-            case 4: { // izquierda
-                bueno.setPosX(bueno.getPosX() - 3);
-                break;
-            }
+        if (canasta.getMoveRight()) {
+            canasta.setPosX(canasta.getPosX() + 3);
         }
 
         //Actualiza la animación en base al tiempo transcurrido
-        bueno.actualiza(tiempoTranscurrido);
-        for (Malo malo : malos) {
-            malo.actualiza(tiempoTranscurrido);
-        }
+        pelota.actualiza(tiempoTranscurrido);
+        canasta.actualiza(tiempoTranscurrido);
     }
 
     /**
@@ -158,36 +142,15 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
      * del <code>Applet</code> y entre si.
      */
     public void checaColision() {
-        if (bueno.getPosX() < 0) {
-            bueno.setPosX(0);
+        if (canasta.getPosX() < WIDTH/2) {
+            canasta.setPosX(WIDTH/2);
         }
-        if (bueno.getPosX() + bueno.getAncho() > getWidth()) {
-            bueno.setPosX(getWidth() - bueno.getAncho());
+        if (canasta.getPosX() + canasta.getAncho() > getWidth()) {
+            canasta.setPosX(getWidth() - canasta.getAncho());
         }
-        if (bueno.getPosY() < 0) {
-            bueno.setPosY(0);
-        }
-        if (bueno.getPosY() + bueno.getAlto() > getHeight()) {
-            bueno.setPosY(getHeight() - bueno.getAlto());
-        }
-        Random r = new Random();
-        for (Malo malo : malos) {
-            if (malo.intersecta(bueno)) {
-                bang.play();
-                Malo.setScore(Malo.getScore() + 1);
-                tiempo = System.currentTimeMillis();
-                malo.reaparece(getWidth(), getHeight());
-            }
 
-            // Checa dependiendo de la direccion por que lado salio de la pantalla
-            if (malo.getDireccion() == 1 && malo.getPosX() > getWidth()) {
-                shoot.play();
-                malo.reaparece(getWidth(), getHeight());
-            } else if (malo.getDireccion() == -1 && malo.getPosX() + malo.getAncho() < 0) {
-                shoot.play();
-                malo.reaparece(getWidth(), getHeight());
-            }
-        }
+        
+        // Colision pelota-canasta
 
     }
 
@@ -229,75 +192,70 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         //g.setColor(Color.RED);
         //g.fillRect(0, 0, WIDTH, HEIGHT);
         // Muestra en pantalla el cuadro actual de la animación
-        if (bueno != null && bueno.getImagenI() != null) {
-            g.drawImage(bueno.getImagenI(), bueno.getPosX(), bueno.getPosY(), this);
+        if (pelota != null && pelota.getImagenI() != null) {
+            g.drawImage(pelota.getImagenI(), pelota.getPosX(), pelota.getPosY(), this);
         }
 
-        if (malos != null) {
-            for (Malo malo : malos) {
-                // Muestra en pantalla el cuadro actual de la animación
-                if (malo.getImagenI() != null) {
-                    g.drawImage(malo.getImagenI(), malo.getPosX(), malo.getPosY(), this);
-                }
-            }
+        if (canasta != null && canasta.getImagenI() != null) {
+            g.drawImage(canasta.getImagenI(), canasta.getPosX(), canasta.getPosY(), this);
         }
 
         g.setFont(new Font("default", Font.BOLD, 16));
         if (pausa) { // mensaje de pausa
             g.setColor(Color.blue);
-            g.drawString(bueno.getPausa(), bueno.getPosX() - 13, bueno.getPosY() + bueno.getAlto() / 2);
-        } else if (System.currentTimeMillis() - tiempo < tMensaje) { // mensaje de desaparece
-            g.setColor(Color.green);
-            g.drawString(bueno.getDesaparece(), bueno.getPosX() - 26, bueno.getPosY() + bueno.getAlto() / 2);
+            g.drawString("PAUSA", canasta.getPosX() - 13, canasta.getPosY() + canasta.getAlto() / 2);
         }
 
         g.setColor(Color.red);
-        //g.drawString("10", 20, 50);
-        g.drawString(String.valueOf(Malo.getScore()), 20, 53);
-        //System.out.println(String.valueOf(Malo.getScore()));
+        g.drawString(String.valueOf(score), 20, 53);
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
     }
-
+    
+    /**
+     * Define el sentido del movimiento de <code>canasta</code>
+     * @param e 
+     */
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_P) {
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            canasta.setMoveLeft(true);
+        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            canasta.setMoveRight(true);
+        } else if (e.getKeyCode() == KeyEvent.VK_P) {
             pausa = !pausa;
         }
     }
 
+    /**
+     * Define el sentido del movimiento de <code>canasta</code>
+     * @param e 
+     */
     @Override
     public void keyReleased(KeyEvent e) {
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            canasta.setMoveLeft(false);
+        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            canasta.setMoveRight(false);
+        }
     }
 
     /**
-     * Cambia la direccion de bueno, segun el cuadrante seleccionado
-     *
-     * @param e evento del mouse
+     * Inicia el movimiento de <code>pelota</code>.
+     * @param e 
      */
     @Override
-    public void mousePressed(MouseEvent e) {
-        int centroX = bueno.getPosX() + bueno.getAncho() / 2;
-        int centroY = bueno.getPosY() + bueno.getAlto() / 2;
-        if (e.getX() > centroX) {
-            if (e.getY() < centroY) {
-                direccion = 1;
-            } else {
-                direccion = 2;
-            }
-        } else {
-            if (e.getY() > centroY) {
-                direccion = 3;
-            } else {
-                direccion = 4;
-            }
+    public void mouseClicked(MouseEvent e) {
+        if (!pelota.getMov() && pelota.contiene(e.getX(), e.getY())) {
+            pelota.lanzar();
         }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        
     }
 
     @Override
@@ -312,8 +270,4 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
     public void mouseExited(MouseEvent e) {
     }
     
-    /*public static void main(String[] args) {
-        JFrameExamen examen = new JFrameExamen();
-        examen.setVisible(true);
-    }*/
 }

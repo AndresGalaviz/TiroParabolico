@@ -11,6 +11,8 @@ public class Base {
 
     private double posX;    //posicion en x.       
     private double posY;    //posicion en y.
+    private static int W;
+    private static int H;
     
     private Animacion animacion;  //animacion del objeto
 
@@ -161,13 +163,53 @@ public class Base {
         return getPerimetro().intersects(obj.getPerimetro());
     }
 
+    /**
+     * Checa si el objeto <code>Base</code> contiene un punto.
+     * @param x coordenada x del punto.
+     * @param y coordenada y del punto.
+     * @return <code>true</code> si lo contiene, <code>false</code> si no.
+     */
     public boolean intersecta(int x, int y) {
         return getPerimetro().contains(new Point(x, y));
     }
 
+    /**
+     * Actualiza la <code>Animacion</code>
+     * @param tiempo es el tiempo actual.
+     */
     public void actualiza(long tiempo) {
         animacion.actualiza(tiempo);
     }
 
-
+    /**
+     * Permite a los objetos conocer el ancho del <code>JFrame</code>.
+     * @param w ancho del <code>JFrame</code>.
+     */
+    public static void setW(int w) {
+        W = w;
+    }
+    
+    /**
+     * Permite a los objetos conocer el ancho del <code>JFrame</code>.
+     * @return el ancho del <code>JFrame</code>.
+     */
+    public static int getW() {
+        return W;
+    }
+    
+    /**
+     * Permite a los objetos conocer el alto del <code>JFrame</code>.
+     * @param h alto del <code>JFrame</code>.
+     */
+    public static void setH(int h) {
+        H = h;
+    }
+    
+    /**
+     * Permite a los objetos conocer el alto del <code>JFrame</code>.
+     * @return el alto del <code>JFrame</code>.
+     */
+    public static int getH() {
+        return H;
+    }
 }
