@@ -9,12 +9,22 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Vector;
 import javax.swing.JFrame;
 
 public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListener, MouseListener {
 
     private static final long serialVersionUID = 1L;
-
+    private static final String nombreArchivo = "score";
+    private String[] arr;    //Arreglo del archivo divido.
+    private Vector vec;    // Objeto vector para agregar las variables.
     private Pelota pelota;
     private Canasta canasta;
     private boolean pausa;
@@ -115,6 +125,46 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         }
 
     }
+//        /**
+//     * Metodo que lee a informacion de un archivo y lo agrega a un vector.
+//     *
+//     * @throws IOException
+//     */
+//    public void leeArchivo() throws IOException{
+//    	BufferedReader fileIn;
+//    	try{
+//    		fileIn = new BufferedReader(new FileReader(nombreArchivo));
+//    	} catch (FileNotFoundException e){
+//    		File puntos = new File(nombreArchivo);
+//    		PrintWriter fileOut = new PrintWriter(puntos);
+//    		fileOut.println("100,demo");
+//    		fileOut.close();
+//    		fileIn = new BufferedReader(new FileReader(nombreArchivo));
+//    	}
+//    	String dato = fileIn.readLine();
+//
+//    	while(dato != null) {
+//    		arr = dato.split(",");
+//    		int num = (Integer.parseInt(arr[0]));
+//    		String nom = arr[1];
+//    		vec.add(new Puntaje(nom, num));
+//    		dato = fileIn.readLine();
+//    	}
+//    	fileIn.close();
+//    }
+//
+//    /**
+//     * Metodo que agrega la informacion del vector al archivo.
+//     *
+//     * @throws IOException
+//     */
+//    public void grabaArchivo() throws IOException{
+//    	PrintWriter fileOut = new PrintWriter(new FileWriter(nombreArchivo));
+//   
+//        fileOut.println( );
+//    	
+//    	fileOut.close();	
+//    }
 
     /**
      * El método actualiza() actualiza la animación
