@@ -6,6 +6,8 @@
 
 package tiroparabolico;
 
+import java.awt.Toolkit;
+
 /**
  *
  * @author Alberto
@@ -22,6 +24,9 @@ public class Canasta extends Base {
     
     private static Animacion crearAnimacionCanasta() {
         Animacion anim = new Animacion();
+        for (int i = 0; i <= 8; i++) {
+            anim.sumaCuadro (Toolkit.getDefaultToolkit ().getImage (Pelota.class.getResource ("tiroparabolico/images/net/net" + i + ".png")), 200);
+        }
         return anim;
     }
     
