@@ -24,8 +24,8 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
     private long tMensaje;
     private Image dbImage;
     private Graphics dbg;
-    private SoundClip happy;
-    private SoundClip sad;
+    private SoundClip bang;
+    private SoundClip shoot;
 
     //Variables de control de tiempo de la animacion
     private long tiempoActual;
@@ -66,8 +66,8 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
 
         //Pinta el fondo del Applet de color blanco
         setBackground(Color.white);
-        sad = new SoundClip();
-        happy = new SoundClip();
+        shoot = new SoundClip();
+        bang = new SoundClip();
         
     }
     
