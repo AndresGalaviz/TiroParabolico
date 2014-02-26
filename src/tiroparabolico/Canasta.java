@@ -25,7 +25,7 @@ public class Canasta extends Base {
     private static Animacion crearAnimacionCanasta() {
         Animacion anim = new Animacion();
         for (int i = 0; i <= 8; i++) {
-            anim.sumaCuadro (Toolkit.getDefaultToolkit ().getImage (Pelota.class.getResource ("tiroparabolico/images/net/net" + i + ".png")), 200);
+            anim.sumaCuadro (Toolkit.getDefaultToolkit ().getImage (Canasta.class.getResource ("tiroparabolico/Images/basket/net" + i + ".png")), 200);
         }
         return anim;
     }
