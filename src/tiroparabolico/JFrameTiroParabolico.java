@@ -30,6 +30,7 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
     private boolean pausa;
     private int vidas;
     private int score;
+    private int caidas;
     private long tiempo;
     private long tMensaje;
     private Image dbImage;
@@ -73,6 +74,7 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         tiempo = System.currentTimeMillis() - tMensaje - 1;
         vidas = 5;
         score = 0;
+        caidas = 0;
 
         //Pinta el fondo del Applet de color blanco
         setBackground(Color.white);
@@ -187,8 +189,10 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         }
 
         //Actualiza la animación en base al tiempo transcurrido
-        pelota.actualiza(tiempoTranscurrido);
         canasta.actualiza(tiempoTranscurrido);
+        if (pelota.getMov()) {
+            pelota.actualiza(tiempoTranscurrido);
+        }
     }
 
     /**
@@ -202,10 +206,20 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         if (canasta.getPosX() + canasta.getAncho() > getWidth()) {
             canasta.setPosX(getWidth() - canasta.getAncho());
         }
-
         
-        // Colision pelota-canasta
-
+        if (pelota.getPosY() > getHeight()) {
+            pelota.reaparecer();
+            caidas++;
+            if (caidas%3 == 0) {
+                vidas--;
+            }
+        }
+        
+        if (pelota.intersectaCentro(canasta)) {
+            score += 2;
+            pelota.reaparecer();
+        }
+        
     }
 
     /**
