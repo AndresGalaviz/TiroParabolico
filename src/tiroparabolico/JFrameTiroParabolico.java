@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -34,6 +35,7 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
     private long tiempo;
     private long tMensaje;
     private Image dbImage;
+    private Image background;
     private Graphics dbg;
     private SoundClip bang;
     private SoundClip shoot;
@@ -68,6 +70,7 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         canasta = new Canasta(0,0);
         canasta.setPosX((int)(Math.random()*(getWidth()/2 - canasta.getAncho())) + getWidth()/2);
         canasta.setPosY(getHeight() - 3*canasta.getAlto()/2);
+        background = Toolkit.getDefaultToolkit ().getImage (this.getClass().getResource ("Images/background/background.jpg"));
 
         pausa = false;
         tMensaje = 500;
@@ -260,7 +263,9 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         //g.setColor(Color.RED);
         //g.fillRect(0, 0, getWidth(), getHeight());
         // Muestra en pantalla el cuadro actual de la animación
+        g.drawImage (background, 0, 0, this);    // Imagen de background
         if (pelota != null && pelota.getImagenI() != null) {
+            
             g.drawImage(pelota.getImagenI(), pelota.getPosX(), pelota.getPosY(), this);
         }
 
