@@ -130,4 +130,16 @@ public class Pelota extends Base {
         }
         return anim;
     }
+    
+    public String getData() {
+        
+        return vx.toString();
+    private double vy;
+    private double x;
+    private double y;
+    private boolean mov;
+    private long startTime;
+    private static double aceleracion = 60;;
+        
+    }
 }
