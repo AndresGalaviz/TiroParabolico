@@ -9,9 +9,9 @@ import javax.swing.ImageIcon;
 
 public class Base {
 
-    private int posX;    //posicion en x.       
-    private int posY;	//posicion en y.
-    private final int D;
+    private double posX;    //posicion en x.       
+    private double posY;    //posicion en y.
+    
     private Animacion animacion;  //animacion del objeto
 
     /**
@@ -21,15 +21,14 @@ public class Base {
      * @param posY es la <code>posicion en y</code> del objeto.
      * @param image es la <code>imagen</code> del objeto.
      */
-    public Base(int posX, int posY, int d, Animacion animacion) {
-        this.posX = posX;
-        this.posY = posY;
-        this.D = d;
+    public Base(int posX, int posY, Animacion animacion) {
+        this.posX = (double)posX;
+        this.posY = (double)posY;
         this.animacion = animacion;
     }
 
     /**
-     * Metodo modificador usado para cambiar la posicion en x del objeto
+     * Metodo modificador usado para cambiar la posicion entera en x del objeto
      *
      * @param posX es la <code>posicion en x</code> del objeto.
      */
@@ -38,22 +37,51 @@ public class Base {
     }
 
     /**
-     * Metodo de acceso que regresa la posicion en x del objeto
+     * Metodo modificador usado para cambiar la posicion en x del objeto
+     *
+     * @param posX es la <code>posicion en x</code> del objeto.
+     */
+    public void setDoublePosX(double posX) {
+        this.posX = posX;
+    }
+    
+    /**
+     * Metodo de acceso que regresa la posicion en x del objeto como entero
      *
      * @return posX es la <code>posicion en x</code> del objeto.
      */
     public int getPosX() {
+        return (int)posX;
+    }
+    
+    /**
+     * Metodo de acceso que regresa la posicion en x del objeto
+     *
+     * @return posX es la <code>posicion en x</code> del objeto.
+     */
+    public double getDoublePosX() {
         return posX;
     }
 
     /**
-     * Metodo modificador usado para cambiar la posicion en y del objeto
+     * Metodo modificador usado para cambiar la posicion entera en y del objeto
      *
      * @param posY es la <code>posicion en y</code> del objeto.
      */
     public void setPosY(int posY) {
         this.posY = posY;
     }
+    
+    /**
+     * Metodo modificador usado para cambiar la posicion en y del objeto
+     *
+     * @param posY es la <code>posicion en y</code> del objeto.
+     */
+    public void setDoublePosY(double posY) {
+        this.posY = posY;
+    }
+    
+    
 
     /**
      * Metodo de acceso que regresa la posicion en y del objeto
@@ -61,6 +89,15 @@ public class Base {
      * @return posY es la <code>posicion en y</code> del objeto.
      */
     public int getPosY() {
+        return (int)posY;
+    }
+    
+    /**
+     * Metodo de acceso que regresa la posicion en y del objeto como entero
+     *
+     * @return posY es la <code>posicion en y</code> del objeto.
+     */
+    public double getDoublePosY() {
         return posY;
     }
 
@@ -70,7 +107,7 @@ public class Base {
      * @return icono es el <code>icono</code> del objeto.
      */
     public ImageIcon getImageIcon() {
-        return animacion.getImagen(D);
+        return animacion.getImagen();
     }
 
     /**
@@ -80,7 +117,7 @@ public class Base {
      * icono.
      */
     public int getAncho() {
-        return animacion.getImagen(D).getIconWidth();
+        return animacion.getImagen().getIconWidth();
     }
 
     /**
@@ -90,7 +127,7 @@ public class Base {
      * icono.
      */
     public int getAlto() {
-        return animacion.getImagen(D).getIconHeight();
+        return animacion.getImagen().getIconHeight();
     }
 
     /**
@@ -100,7 +137,7 @@ public class Base {
      * icono.
      */
     public Image getImagenI() {
-        return animacion.getImagen(D).getImage();
+        return animacion.getImagen().getImage();
     }
 
     /**
@@ -131,9 +168,6 @@ public class Base {
     public void actualiza(long tiempo) {
         animacion.actualiza(tiempo);
     }
-    
-    public int getIndex() {
-        return D;
-    }
+
 
 }

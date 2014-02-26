@@ -10,6 +10,27 @@ package tiroparabolico;
  *
  * @author AndresG
  */
-public class Pelota {
+public class Pelota extends Base {
     
+    private double dx;
+    private double dy;
+    private static double aceleracion = 9;
+    
+    public Pelota(int posX, int posY, Animacion animacion) {
+        super(posX, posY, animacion);
+    }
+    
+    public void actualiza() {
+        dy += aceleracion;
+        setDoublePosX(getDoublePosX() + dx);
+        setDoublePosY(getDoublePosY() + dy);
+    }
+    
+    public static void setAceleracion(double a) {
+        aceleracion = a;
+    }
+    
+    public static double getAceleracion() {
+        return aceleracion;
+    }
 }

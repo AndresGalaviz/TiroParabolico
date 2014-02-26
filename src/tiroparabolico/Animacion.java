@@ -63,11 +63,11 @@ public class Animacion {
      * no tiene imágenes.
      * @return la imagen actual
      */
-    public synchronized ImageIcon getImagen(int d) {
-        if (cuadros.size() == 0) {
+    public synchronized ImageIcon getImagen(){
+            if (cuadros.size() == 0) {
             return null;
         } else {
-            return getCuadro((indiceCuadroActual+d) % cuadros.size()).imagen;
+            return new ImageIcon(getCuadro(indiceCuadroActual).imagen);
         }
     }
 
@@ -77,7 +77,7 @@ public class Animacion {
 
     public class cuadroDeAnimacion {
 
-        ImageIcon imagen;
+        Image imagen;
         long tiempoFinal;
 
         public cuadroDeAnimacion() {
@@ -86,11 +86,11 @@ public class Animacion {
         }
 
         public cuadroDeAnimacion(Image imagen, long tiempoFinal) {
-            this.imagen = new ImageIcon(imagen);
+            this.imagen = imagen;
             this.tiempoFinal = tiempoFinal;
         }
 
-        public ImageIcon getImagen() {
+        public Image getImagen() {
             return imagen;
         }
 
@@ -99,7 +99,7 @@ public class Animacion {
         }
 
         public void setImagen(Image imagen) {
-            this.imagen = new ImageIcon(imagen);
+            this.imagen = imagen;
         }
 
         public void setTiempoFinal(long tiempoFinal) {
