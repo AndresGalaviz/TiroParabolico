@@ -52,8 +52,8 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         Base.setW(getWidth());
         Base.setH(getHeight());
         pelota = new Pelota(0,0);
-        pelota.setPosX(getWidth()/5 - pelota.getAncho());
-        pelota.setPosY(2*getHeight()/5 - pelota.getAlto());
+        pelota.setX(getWidth()/5 - pelota.getAncho());
+        pelota.setY(getHeight()/2 - pelota.getAlto());
         canasta = new Canasta(0,0);
         canasta.setPosX((int)(Math.random()*(getWidth()/2 - canasta.getAncho())) + getWidth()/2);
         canasta.setPosY(getHeight() - 3*canasta.getAlto()/2);

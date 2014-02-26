@@ -20,7 +20,7 @@ public class Pelota extends Base {
     private double y;
     private boolean mov;
     private long startTime;
-    private static double aceleracion = 20;
+    private static double aceleracion = 60;
     
     /**
      * Metodo constructor.
@@ -50,11 +50,12 @@ public class Pelota extends Base {
         mov = true;
         startTime = System.currentTimeMillis();
         double maxVy = getMaxVy();
-        double minVy = .1*maxVy;
+        double minVy = .3*maxVy;
         vy = Math.random()*(maxVy - minVy) + minVy;
         double maxVx = getVx(getW() - getAncho(), getH() - getAlto());
         double minVx = getVx(getW()/2, getH() - getAlto());
         vx = Math.random()*(maxVx - minVx) + minVx;
+        System.out.println("P = (" + x + "," + y + "), V = (" + vx + "," + vy + ")");
     }
     
     /**
@@ -65,6 +66,7 @@ public class Pelota extends Base {
             double time = (double)(System.currentTimeMillis() - startTime)/1000;
             setDoublePosX(x + vx * time);
             setDoublePosY(y - (vy*time - 0.5*aceleracion*time*time));
+            //System.out.println("(" + getDoublePosX() + ", " + getDoublePosY() + ")");
         }
     }
     
@@ -104,6 +106,16 @@ public class Pelota extends Base {
         return mov;
     }
     
+    public void setX(int X) {
+        x = X;
+        setPosX(X);
+    }
+    
+    public void setY(int Y) {
+        y = Y;
+        setPosY(Y);
+    }
+    
     public static void setAceleracion(double a) {
         aceleracion = a;
     }
@@ -115,7 +127,7 @@ public class Pelota extends Base {
     private static Animacion crearAnimacionPelota() {
         Animacion anim = new Animacion();
         for (int i = 0; i <= 20; i++) {
-            anim.sumaCuadro (Toolkit.getDefaultToolkit ().getImage (Pelota.class.getResource ("Images/ball/basketball" + i + ".png")), 200);
+            anim.sumaCuadro (Toolkit.getDefaultToolkit ().getImage (Pelota.class.getResource ("Images/ball/basketball" + i + ".png")), 100);
         }
         return anim;
     }
