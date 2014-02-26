@@ -153,6 +153,16 @@ public class Base {
     }
 
     /**
+     * Metodo de acceso que regresa un nuevo rectangulo en el centro del objeto
+     *
+     * @return un objeto de la clase <code>Rectangle</code>.
+     */
+    public Rectangle getCentro() {
+        return new Rectangle(getPosX() + getAncho()/4, getPosY() + getAlto()/4, 
+                getAncho()/2, getAlto()/2);
+    }
+    
+    /**
      * Checa si el objeto <code>Base</code> intersecta a otro
      * <code>Base</code>
      *
@@ -163,6 +173,10 @@ public class Base {
         return getPerimetro().intersects(obj.getPerimetro());
     }
 
+    public boolean intersectaCentro(Base obj) {
+        return getCentro().intersects(obj.getCentro());
+    }
+    
     /**
      * Checa si el objeto <code>Base</code> contiene un punto.
      * @param x coordenada x del punto.

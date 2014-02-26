@@ -55,7 +55,6 @@ public class Pelota extends Base {
         double maxVx = getVx(getW() - getAncho(), getH() - getAlto());
         double minVx = getVx(getW()/2, getH() - getAlto());
         vx = Math.random()*(maxVx - minVx) + minVx;
-        System.out.println("P = (" + x + "," + y + "), V = (" + vx + "," + vy + ")");
     }
     
     /**
