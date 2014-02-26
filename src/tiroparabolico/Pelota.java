@@ -20,7 +20,7 @@ public class Pelota extends Base {
     private double y;
     private boolean mov;
     private long startTime;
-    private static double aceleracion = 9;
+    private static double aceleracion = 20;
     
     /**
      * Metodo constructor.

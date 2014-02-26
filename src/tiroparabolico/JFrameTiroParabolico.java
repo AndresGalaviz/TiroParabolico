@@ -49,14 +49,14 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
     public void init(){
         addKeyListener(this);
         addMouseListener(this);
-        Base.setW(WIDTH);
-        Base.setH(HEIGHT);
+        Base.setW(getWidth());
+        Base.setH(getHeight());
         pelota = new Pelota(0,0);
-        pelota.setPosX(WIDTH/5 - pelota.getAncho());
-        pelota.setPosY(2*HEIGHT/5 - pelota.getAlto());
+        pelota.setPosX(getWidth()/5 - pelota.getAncho());
+        pelota.setPosY(2*getHeight()/5 - pelota.getAlto());
         canasta = new Canasta(0,0);
-        canasta.setPosX((int)(Math.random()*(WIDTH/2 - canasta.getAncho())) + WIDTH/2);
-        canasta.setPosY(HEIGHT - 3*canasta.getAlto()/2);
+        canasta.setPosX((int)(Math.random()*(getWidth()/2 - canasta.getAncho())) + getWidth()/2);
+        canasta.setPosY(getHeight() - 3*canasta.getAlto()/2);
 
         pausa = false;
         tMensaje = 500;
@@ -146,8 +146,8 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
      * del <code>Applet</code> y entre si.
      */
     public void checaColision() {
-        if (canasta.getPosX() < WIDTH/2) {
-            canasta.setPosX(WIDTH/2);
+        if (canasta.getPosX() < getWidth()/2) {
+            canasta.setPosX(getWidth()/2);
         }
         if (canasta.getPosX() + canasta.getAncho() > getWidth()) {
             canasta.setPosX(getWidth() - canasta.getAncho());
@@ -194,7 +194,7 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
      */
     public void paint1(Graphics g) {
         //g.setColor(Color.RED);
-        //g.fillRect(0, 0, WIDTH, HEIGHT);
+        //g.fillRect(0, 0, getWidth(), getHeight());
         // Muestra en pantalla el cuadro actual de la animación
         if (pelota != null && pelota.getImagenI() != null) {
             g.drawImage(pelota.getImagenI(), pelota.getPosX(), pelota.getPosY(), this);
