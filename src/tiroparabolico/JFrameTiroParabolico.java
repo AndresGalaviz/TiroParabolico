@@ -36,6 +36,7 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
     private long tMensaje;
     private Image dbImage;
     private Image background;
+    private Image pause;
     private Graphics dbg;
     private SoundClip bang;
     private SoundClip shoot;
@@ -71,7 +72,7 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         canasta.setPosX((int)(Math.random()*(getWidth()/2 - canasta.getAncho())) + getWidth()/2);
         canasta.setPosY(getHeight() - 3*canasta.getAlto()/2);
         background = Toolkit.getDefaultToolkit ().getImage (this.getClass().getResource ("Images/background/background.jpg"));
-
+        pause = Toolkit.getDefaultToolkit ().getImage (this.getClass().getResource ("Images/pause.png"));
         pausa = false;
         tMensaje = 500;
         tiempo = System.currentTimeMillis() - tMensaje - 1;
@@ -130,46 +131,45 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         }
 
     }
-//        /**
-//     * Metodo que lee a informacion de un archivo y lo agrega a un vector.
-//     *
-//     * @throws IOException
-//     */
-//    public void leeArchivo() throws IOException{
-//    	BufferedReader fileIn;
-//    	try{
-//    		fileIn = new BufferedReader(new FileReader(nombreArchivo));
-//    	} catch (FileNotFoundException e){
-//    		File puntos = new File(nombreArchivo);
-//    		PrintWriter fileOut = new PrintWriter(puntos);
-//    		fileOut.println("100,demo");
-//    		fileOut.close();
-//    		fileIn = new BufferedReader(new FileReader(nombreArchivo));
-//    	}
-//    	String dato = fileIn.readLine();
-//
-//    	while(dato != null) {
-//    		arr = dato.split(",");
-//    		int num = (Integer.parseInt(arr[0]));
-//    		String nom = arr[1];
-//    		vec.add(new Puntaje(nom, num));
-//    		dato = fileIn.readLine();
-//    	}
-//    	fileIn.close();
-//    }
-//
-//    /**
-//     * Metodo que agrega la informacion del vector al archivo.
-//     *
-//     * @throws IOException
-//     */
-//    public void grabaArchivo() throws IOException{
-//    	PrintWriter fileOut = new PrintWriter(new FileWriter(nombreArchivo));
-//   
-//        fileOut.println( );
-//    	
-//    	fileOut.close();	
-//    }
+/**
+ * Metodo que lee a informacion de un archivo y lo agrega a un vector.
+ *
+ * @throws IOException
+ */
+public void leeArchivo() throws IOException{
+	BufferedReader fileIn;
+	try{
+		fileIn = new BufferedReader(new FileReader(nombreArchivo));
+	} catch (FileNotFoundException e){
+		File puntos = new File(nombreArchivo);
+		PrintWriter fileOut = new PrintWriter(puntos);
+		fileOut.println("5,0,0,0,0,0,0,0,0,0");
+		fileOut.close();
+		fileIn = new BufferedReader(new FileReader(nombreArchivo));
+	}
+	String dato = fileIn.readLine();
+
+	while(dato != null) {
+		arr = dato.split(",");
+		int num = (Integer.parseInt(arr[0]));
+		String nom = arr[1];
+		vec.add(nom);
+		dato = fileIn.readLine();
+	}
+	fileIn.close();
+}
+
+/**
+ * Metodo que agrega la informacion del vector al archivo.
+ *
+ * @throws IOException
+ */
+public void grabaArchivo() throws IOException{
+	PrintWriter fileOut = new PrintWriter(new FileWriter(nombreArchivo));
+
+        fileOut.println(String.valueOf (vidas) + "," + String.valueOf(score) + "," + String.valueOf (caidas) + "," + pelota.getData());
+	fileOut.close();	
+}
 
     /**
      * El método actualiza() actualiza la animación
@@ -181,8 +181,9 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
 
         //Guarda el tiempo actual
         tiempoActual += tiempoTranscurrido;
-
-        pelota.avanza();
+        
+        pelota.avanza(pausa);
+        
         
         if (canasta.getMoveLeft()) {
             canasta.setPosX(canasta.getPosX() - 3);
@@ -275,8 +276,8 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
 
         g.setFont(new Font("default", Font.BOLD, 16));
         if (pausa) { // mensaje de pausa
-            g.setColor(Color.blue);
-            g.drawString("PAUSA", canasta.getPosX() - 13, canasta.getPosY() + canasta.getAlto() / 2);
+            g.setColor(Color.white);
+            g.drawImage(pause, canasta.getPosX()-10, canasta.getPosY()-37, this);
         }
 
         g.setColor(Color.red);
