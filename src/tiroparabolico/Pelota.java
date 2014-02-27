@@ -21,7 +21,7 @@ public class Pelota extends Base {
     private boolean mov;
     private long startTime;
     private long freezeTime;
-    private static double aceleracion = 60;
+    private static double aceleracion = 100;
     
     /**
      * Metodo constructor.
@@ -61,10 +61,7 @@ public class Pelota extends Base {
     /**
      * La pelota se mueve de acuerdo al tiempo, velocidad en X y Y, y gravedad.
      */
-    public void avanza(boolean pausa) {
-        if(pausa) {
-            
-        }
+    public void avanza() {
         if (mov) {
             double time = (double)(System.currentTimeMillis() - startTime)/1000;
             setDoublePosX(x + vx * time);
