@@ -60,7 +60,10 @@ public class Pelota extends Base {
     /**
      * La pelota se mueve de acuerdo al tiempo, velocidad en X y Y, y gravedad.
      */
-    public void avanza() {
+    public void avanza(boolean pausa) {
+        if(pausa) {
+            
+        }
         if (mov) {
             double time = (double)(System.currentTimeMillis() - startTime)/1000;
             setDoublePosX(x + vx * time);
@@ -130,16 +133,14 @@ public class Pelota extends Base {
         }
         return anim;
     }
-//    
-//    public String getData() {
-//        
-//        return vx.toString();
-//    private double vy;
-//    private double x;
-//    private double y;
-//    private boolean mov;
-//    private long startTime;
-//    private static double aceleracion = 60;;
-//        
-//    }
+    
+    public String getData() {
+        
+        String salida = String.valueOf(vx) + "," + String.valueOf (vy) + String.valueOf (x);
+        salida += String.valueOf (y) + String.valueOf(mov) + String.valueOf(startTime);
+        salida += String.valueOf(aceleracion);
+        return salida;
+        
+    }
+
 }
