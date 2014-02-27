@@ -29,6 +29,7 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
     private Pelota pelota;
     private Canasta canasta;
     private boolean pausa;
+    private boolean instrucciones;
     private int vidas;
     private int score;
     private int caidas;
@@ -36,6 +37,7 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
     private long tMensaje;
     private Image dbImage;
     private Image background;
+    private Image instructionBack;
     private Image pause;
     private Graphics dbg;
     private SoundClip bang;
@@ -73,13 +75,15 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         canasta.setPosY(getHeight() - 3*canasta.getAlto()/2);
         background = Toolkit.getDefaultToolkit ().getImage (this.getClass().getResource ("Images/background/background.jpg"));
         pause = Toolkit.getDefaultToolkit ().getImage (this.getClass().getResource ("Images/pause.png"));
+        instructionBack = Toolkit.getDefaultToolkit ().getImage (this.getClass().getResource ("Images/background/instrucciones.jpg"));
+       
         pausa = false;
         tMensaje = 500;
         tiempo = System.currentTimeMillis() - tMensaje - 1;
         vidas = 5;
         score = 0;
         caidas = 0;
-
+        instrucciones = false;
         //Pinta el fondo del Applet de color blanco
         setBackground(Color.white);
         shoot = new SoundClip();
@@ -279,9 +283,12 @@ public void grabaArchivo() throws IOException{
             g.setColor(Color.white);
             g.drawImage(pause, canasta.getPosX()-10, canasta.getPosY()-37, this);
         }
-
         g.setColor(Color.red);
         g.drawString(String.valueOf(score), 20, 53);
+        if(instrucciones) {
+            setBackground(Color.black);
+            g.drawImage (instructionBack, 0, 0, this);    // Imagen de instrucciones
+        }
     }
 
     @Override
@@ -307,6 +314,22 @@ public void grabaArchivo() throws IOException{
                 pausa = false;
                 pelota.unfreeze();
             }
+        } else if(e.getKeyCode() == KeyEvent.VK_I) {
+            if (!pausa) {
+                pausa = true;
+                pelota.freeze();
+                // Blabla new commit
+            } else {
+                pausa = false;
+                pelota.unfreeze();
+            }
+           if (!instrucciones) {
+               instrucciones = true;
+           } else {
+               instrucciones = false;
+
+           }
+            
         }
     }
 
