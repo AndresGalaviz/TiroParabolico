@@ -21,7 +21,7 @@ public class Pelota extends Base {
     private boolean mov;
     private long startTime;
     private long freezeTime;
-    private static double aceleracion = 100;
+    private static double aceleracion = 200;
     
     /**
      * Metodo constructor.
@@ -53,8 +53,8 @@ public class Pelota extends Base {
         double maxVy = getMaxVy();
         double minVy = .3*maxVy;
         vy = Math.random()*(maxVy - minVy) + minVy;
-        double maxVx = getVx(getW() - getAncho(), getH() - getAlto());
-        double minVx = getVx(getW()/2, getH() - getAlto());
+        double maxVx = getVx(getW() - getAncho() + 10, getH() - getAlto());
+        double minVx = getVx(getW()/2 - 10, getH() - getAlto());
         vx = Math.random()*(maxVx - minVx) + minVx;
     }
     
@@ -99,6 +99,13 @@ public class Pelota extends Base {
         return (posX-x)/t;
     }
     
+    /**
+     * Dice si el punto (posX, posY) esta dentro de la pelota, no solo del
+     * cuadrado que la contiene
+     * @param posX coordenada X del punto
+     * @param posY coordenada Y del punto
+     * @return <code>true</code> si está en el interior, sino <code>false</code>.
+     */
     public boolean contiene(int posX, int posY) {
         int distCentroX = (getPosX() + getAncho()/2) - posX;
         int distCentroY = (getPosY() + getAlto()/2) - posY;
@@ -106,32 +113,60 @@ public class Pelota extends Base {
         return (distCentroX*distCentroX + distCentroY*distCentroY <= getAncho()*getAncho()/4);
     }
     
+    /**
+     * Indica si la pelota está en movimiento o no
+     * @param m valor que tomará <code>mov</code>
+     */
     public void setMov(boolean m) {
         mov = m;
     }
     
+    /**
+     * Regresa si <code>Pelota</code> esta en movimiento o no
+     * @return true o false
+     */
     public boolean getMov() {
         return mov;
     }
     
+    /**
+     * Establece la posición inicial en X
+     * @param X coordenada X
+     */
     public void setX(int X) {
         x = X;
         setPosX(X);
     }
     
+    /**
+     * Establece la posición inicial en Y
+     * @param Y coordenada Y
+     */
     public void setY(int Y) {
         y = Y;
         setPosY(Y);
     }
     
+    /**
+     * Establece el valor de la gravedad
+     * @param a un valor de tipo <code>double</code>
+     */
     public static void setAceleracion(double a) {
         aceleracion = a;
     }
     
+    /**
+     * Regresa el valor de la gravedad
+     * @return <code>aceleracion</code>
+     */
     public static double getAceleracion() {
         return aceleracion;
     }
     
+    /**
+     * Crea la animación de la pelota para el constructor
+     * @return un objeto de tipo <code>Animacion</code>
+     */
     private static Animacion crearAnimacionPelota() {
         Animacion anim = new Animacion();
         for (int i = 0; i <= 20; i++) {
