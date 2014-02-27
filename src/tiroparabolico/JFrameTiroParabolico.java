@@ -296,7 +296,7 @@ public void grabaArchivo() throws IOException{
         g.setColor(Color.blue);
         g.drawString("Caídas: " + caidas, 20, 80);
         g.setColor(Color.red);
-        g.drawString(String.valueOf(score), 20, 53);
+        g.drawString("Vidas: " + vidas, 20, 105);
         if(instrucciones) {
             setBackground(Color.black);
             g.drawImage (instructionBack, 0, 0, this);    // Imagen de instrucciones
