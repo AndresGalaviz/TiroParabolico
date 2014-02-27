@@ -20,6 +20,7 @@ public class Pelota extends Base {
     private double y;
     private boolean mov;
     private long startTime;
+    private long freezeTime;
     private static double aceleracion = 60;
     
     /**
@@ -67,6 +68,14 @@ public class Pelota extends Base {
             setDoublePosY(y - (vy*time - 0.5*aceleracion*time*time));
             //System.out.println("(" + getDoublePosX() + ", " + getDoublePosY() + ")");
         }
+    }
+    
+    public void freeze() {
+        freezeTime = System.currentTimeMillis();
+    }
+    
+    public void unfreeze() {
+        startTime += System.currentTimeMillis() - freezeTime;
     }
     
     /**

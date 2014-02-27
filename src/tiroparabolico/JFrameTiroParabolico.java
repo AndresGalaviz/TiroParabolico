@@ -182,7 +182,7 @@ public void grabaArchivo() throws IOException{
         //Guarda el tiempo actual
         tiempoActual += tiempoTranscurrido;
         
-        pelota.avanza(pausa);
+        pelota.avanza();
         
         
         if (canasta.getMoveLeft()) {
@@ -299,7 +299,13 @@ public void grabaArchivo() throws IOException{
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             canasta.setMoveRight(true);
         } else if (e.getKeyCode() == KeyEvent.VK_P) {
-            pausa = !pausa;
+            if (!pausa) {
+                pausa = true;
+                pelota.freeze();
+            } else {
+                pausa = false;
+                pelota.unfreeze();
+            }
         }
     }
 
