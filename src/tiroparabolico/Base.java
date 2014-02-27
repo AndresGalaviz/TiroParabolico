@@ -162,6 +162,11 @@ public class Base {
                 getAncho()/2, getAlto()/4);
     }
     
+    public Rectangle getCentroSup() {
+        return new Rectangle(getPosX() + getAncho()/4, getPosY(), 
+                getAncho()/2, getAlto()/4);
+    }
+    
     /**
      * Checa si el objeto <code>Base</code> intersecta a otro
      * <code>Base</code>
@@ -173,8 +178,8 @@ public class Base {
         return getPerimetro().intersects(obj.getPerimetro());
     }
 
-    public boolean intersectaCentro(Base obj) {
-        return getCentro().intersects(obj.getCentro());
+    public boolean intersectaCentroSup(Base obj) {
+        return getCentro().intersects(obj.getCentroSup());
     }
     
     /**

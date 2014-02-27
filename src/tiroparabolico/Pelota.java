@@ -50,11 +50,11 @@ public class Pelota extends Base {
     public void lanzar() {
         mov = true;
         startTime = System.currentTimeMillis();
-        double maxVy = getMaxVy();
+        double maxVy = .94*getMaxVy();
         double minVy = .3*maxVy;
         vy = Math.random()*(maxVy - minVy) + minVy;
-        double maxVx = getVx(getW() - getAncho() + 10, getH() - getAlto());
-        double minVx = getVx(getW()/2 - 10, getH() - getAlto());
+        double maxVx = .97*getVx(getW() - getAncho() + 10, getH() - getAlto());
+        double minVx = getVx(getW()/2 + 20, getH() - 2*getAlto());
         vx = Math.random()*(maxVx - minVx) + minVx;
     }
     
@@ -145,6 +145,10 @@ public class Pelota extends Base {
     public void setY(int Y) {
         y = Y;
         setPosY(Y);
+    }
+    
+    public void setVx(double v) {
+        vx = v;
     }
     
     /**

@@ -1,6 +1,5 @@
 package tiroparabolico;
 
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -32,6 +31,7 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
     private Canasta canasta;
     private boolean pausa;
     private boolean instrucciones;
+    private boolean entrando;
     private int vidas;
     private int score;
     private int caidas;
@@ -58,41 +58,42 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         init();
         start();
     }
-    
+
     /**
      * Metodo <I>init</I> sobrescrito de la clase <code>Applet</code>.<P>
      * En este metodo se inizializan las variables o se crean los objetos a
      * usarse en el <code>Applet</code> y se definen funcionalidades.
      */
-    public void init(){
+    public void init() {
         addKeyListener(this);
         addMouseListener(this);
         Base.setW(getWidth());
         Base.setH(getHeight());
-        pelota = new Pelota(0,0);
-        pelota.setX(getWidth()/5 - pelota.getAncho());
-        pelota.setY(getHeight()/2 - pelota.getAlto());
-        canasta = new Canasta(0,0);
-        canasta.setPosX((int)(Math.random()*(getWidth()/2 - canasta.getAncho())) + getWidth()/2);
-        canasta.setPosY(getHeight() - 3*canasta.getAlto()/2);
-        background = Toolkit.getDefaultToolkit ().getImage (this.getClass().getResource ("Images/background/background.jpg"));
-        pause = Toolkit.getDefaultToolkit ().getImage (this.getClass().getResource ("Images/pause.png"));
-        instructionBack = Toolkit.getDefaultToolkit ().getImage (this.getClass().getResource ("Images/background/instrucciones.jpg"));
-       
+        pelota = new Pelota(0, 0);
+        pelota.setX(getWidth() / 5 - pelota.getAncho());
+        pelota.setY(getHeight() / 2 - pelota.getAlto());
+        canasta = new Canasta(0, 0);
+        canasta.setPosX((int) (Math.random() * (getWidth() / 2 - canasta.getAncho())) + getWidth() / 2);
+        canasta.setPosY(getHeight() - 3 * canasta.getAlto() / 2);
+        background = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/background/background.jpg"));
+        pause = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/pause.png"));
+        instructionBack = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/background/instrucciones.jpg"));
+
         pausa = false;
+        instrucciones = false;
+        entrando = false;
         tMensaje = 500;
         tiempo = System.currentTimeMillis() - tMensaje - 1;
         vidas = 5;
         score = 0;
         caidas = 0;
-        instrucciones = false;
         //Pinta el fondo del Applet de color blanco
         setBackground(Color.white);
         shoot = new SoundClip();
         bang = new SoundClip();
-        
+
     }
-    
+
     /**
      * Metodo <I>start</I> sobrescrito de la clase <code>Applet</code>.<P>
      * En este metodo se crea e inicializa el hilo para la animacion este metodo
@@ -121,10 +122,10 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         //Ciclo principal del Applet. Actualiza y despliega en pantalla la 
         //animacion hasta que el Applet sea cerrado
         while (true) {
-            if (!pausa) {
-                checaColision();
+            if (!pausa && !instrucciones) {
                 //Actualiza la animacion
                 actualiza();
+                checaColision();
             }
             //Manda a llamar al metodo paint() para mostrar en pantalla la animación
             repaint();
@@ -137,49 +138,50 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         }
 
     }
-/**
- * Metodo que lee a informacion de un archivo y lo agrega a un vector.
- *
- * @throws IOException
- */
-public void leeArchivo() throws IOException{
-	BufferedReader fileIn;
-	try{
-		fileIn = new BufferedReader(new FileReader(nombreArchivo));
-	} catch (FileNotFoundException e){
-		File puntos = new File(nombreArchivo);
-		PrintWriter fileOut = new PrintWriter(puntos);
-		fileOut.println("5,0,0,0,0,0,0,0,0,0");
-		fileOut.close();
-		fileIn = new BufferedReader(new FileReader(nombreArchivo));
-	}
-	String dato = fileIn.readLine();
 
-	while(dato != null) {
-		arr = dato.split(",");
-		int num = (Integer.parseInt(arr[0]));
-		String nom = arr[1];
-		vec.add(nom);
-		dato = fileIn.readLine();
-	}
-	fileIn.close();
-}
-
-/**
- * Metodo que agrega la informacion del vector al archivo.
- *
- * @throws IOException
- */
-public void grabaArchivo() throws IOException{
-    try{
-	PrintWriter fileOut = new PrintWriter(new FileWriter(nombreArchivo));
-
-        fileOut.println(String.valueOf (vidas) + "," + String.valueOf(score) + "," + String.valueOf (caidas) + "," + pelota.getData());
-	fileOut.close();	
-        } catch (FileNotFoundException e){
-            
+    /**
+     * Metodo que lee a informacion de un archivo y lo agrega a un vector.
+     *
+     * @throws IOException
+     */
+    public void leeArchivo() throws IOException {
+        BufferedReader fileIn;
+        try {
+            fileIn = new BufferedReader(new FileReader(nombreArchivo));
+        } catch (FileNotFoundException e) {
+            File puntos = new File(nombreArchivo);
+            PrintWriter fileOut = new PrintWriter(puntos);
+            fileOut.println("5,0,0,0,0,0,0,0,0,0");
+            fileOut.close();
+            fileIn = new BufferedReader(new FileReader(nombreArchivo));
         }
-}
+        String dato = fileIn.readLine();
+
+        while (dato != null) {
+            arr = dato.split(",");
+            int num = (Integer.parseInt(arr[0]));
+            String nom = arr[1];
+            vec.add(nom);
+            dato = fileIn.readLine();
+        }
+        fileIn.close();
+    }
+
+    /**
+     * Metodo que agrega la informacion del vector al archivo.
+     *
+     * @throws IOException
+     */
+    public void grabaArchivo() throws IOException {
+        try {
+            PrintWriter fileOut = new PrintWriter(new FileWriter(nombreArchivo));
+
+            fileOut.println(String.valueOf(vidas) + "," + String.valueOf(score) + "," + String.valueOf(caidas) + "," + pelota.getData());
+            fileOut.close();
+        } catch (FileNotFoundException e) {
+
+        }
+    }
 
     /**
      * El método actualiza() actualiza la animación
@@ -192,14 +194,21 @@ public void grabaArchivo() throws IOException{
         //Guarda el tiempo actual
         tiempoActual += tiempoTranscurrido;
         
-        pelota.avanza();
-        
-        
         if (canasta.getMoveLeft()) {
             canasta.setPosX(canasta.getPosX() - 3);
         }
         if (canasta.getMoveRight()) {
             canasta.setPosX(canasta.getPosX() + 3);
+        }
+        
+        pelota.avanza();
+        if (entrando) {
+            if (pelota.getPosY() < canasta.getPosY()+2*canasta.getAlto()/3) {
+                pelota.setPosX(canasta.getPosX() + canasta.getAncho()/2 - pelota.getAncho()/2);
+            } else {
+                entrando = false;
+                pelota.reaparecer();
+            }
         }
 
         //Actualiza la animación en base al tiempo transcurrido
@@ -214,27 +223,27 @@ public void grabaArchivo() throws IOException{
      * del <code>Applet</code> y entre si.
      */
     public void checaColision() {
-        if (canasta.getPosX() < getWidth()/2) {
-            canasta.setPosX(getWidth()/2);
+        if (canasta.getPosX() < getWidth() / 2) {
+            canasta.setPosX(getWidth() / 2);
         }
         if (canasta.getPosX() + canasta.getAncho() > getWidth()) {
             canasta.setPosX(getWidth() - canasta.getAncho());
         }
-        
-        if (pelota.getPosY() > getHeight()) {
+
+        if (pelota.getPosY() > getHeight() + 10) {
             pelota.reaparecer();
             caidas++;
-            if (caidas%3 == 0) {
+            if (caidas % 3 == 0) {
                 vidas--;
                 Pelota.setAceleracion(Pelota.getAceleracion() + 50);
             }
         }
-        
-        if (pelota.intersectaCentro(canasta)) {
+
+        if (pelota.intersectaCentroSup(canasta) && !entrando) {
             score += 2;
-            pelota.reaparecer();
+            entrando = true;
         }
-        
+
     }
 
     /**
@@ -275,9 +284,9 @@ public void grabaArchivo() throws IOException{
         //g.setColor(Color.RED);
         //g.fillRect(0, 0, getWidth(), getHeight());
         // Muestra en pantalla el cuadro actual de la animación
-        g.drawImage (background, 0, 0, this);    // Imagen de background
+        g.drawImage(background, 0, 0, this);    // Imagen de background
         if (pelota != null && pelota.getImagenI() != null) {
-            
+
             g.drawImage(pelota.getImagenI(), pelota.getPosX(), pelota.getPosY(), this);
         }
 
@@ -288,7 +297,7 @@ public void grabaArchivo() throws IOException{
         g.setFont(new Font("default", Font.BOLD, 16));
         if (pausa) { // mensaje de pausa
             g.setColor(Color.white);
-            g.drawImage(pause, canasta.getPosX()-10, canasta.getPosY()-37, this);
+            g.drawImage(pause, canasta.getPosX() - 10, canasta.getPosY() - 37, this);
         }
 
         g.setColor(Color.green);
@@ -297,19 +306,20 @@ public void grabaArchivo() throws IOException{
         g.drawString("Caídas: " + caidas, 20, 80);
         g.setColor(Color.red);
         g.drawString("Vidas: " + vidas, 20, 105);
-        if(instrucciones) {
+        if (instrucciones) {
             setBackground(Color.black);
-            g.drawImage (instructionBack, 0, 0, this);    // Imagen de instrucciones
+            g.drawImage(instructionBack, 0, 0, this);    // Imagen de instrucciones
         }
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
     }
-    
+
     /**
      * Define el sentido del movimiento de <code>canasta</code>
-     * @param e 
+     *
+     * @param e
      */
     @Override
     public void keyPressed(KeyEvent e) {
@@ -321,43 +331,35 @@ public void grabaArchivo() throws IOException{
             if (!pausa) {
                 pausa = true;
                 pelota.freeze();
-                // Blabla new commit
             } else {
                 pausa = false;
                 pelota.unfreeze();
             }
-        } else if(e.getKeyCode() == KeyEvent.VK_I) {
-            if (!pausa) {
-                pausa = true;
+        } else if (e.getKeyCode() == KeyEvent.VK_I) {
+            if (!instrucciones) {
+                instrucciones = true;
                 pelota.freeze();
-                // Blabla new commit
             } else {
-                pausa = false;
+                instrucciones = false;
                 pelota.unfreeze();
             }
-           if (!instrucciones) {
-               instrucciones = true;
-           } else {
-               instrucciones = false;
 
-           }
-            
-        }
-         else if(e.getKeyCode() == KeyEvent.VK_G) {
-             if(!instrucciones) {
-                 try {
-                     grabaArchivo();
-                 } catch (IOException ex) {
-                     Logger.getLogger (JFrameTiroParabolico.class.getName()).log (Level.SEVERE, null, ex);
-                 }
-             }
-            
+        } else if (e.getKeyCode() == KeyEvent.VK_G) {
+            if (!instrucciones) {
+                try {
+                    grabaArchivo();
+                } catch (IOException ex) {
+                    Logger.getLogger(JFrameTiroParabolico.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
         }
     }
 
     /**
      * Define el sentido del movimiento de <code>canasta</code>
-     * @param e 
+     *
+     * @param e
      */
     @Override
     public void keyReleased(KeyEvent e) {
@@ -370,7 +372,8 @@ public void grabaArchivo() throws IOException{
 
     /**
      * Inicia el movimiento de <code>pelota</code>.
-     * @param e 
+     *
+     * @param e
      */
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -381,7 +384,7 @@ public void grabaArchivo() throws IOException{
 
     @Override
     public void mousePressed(MouseEvent e) {
-        
+
     }
 
     @Override
@@ -395,5 +398,5 @@ public void grabaArchivo() throws IOException{
     @Override
     public void mouseExited(MouseEvent e) {
     }
-    
+
 }
