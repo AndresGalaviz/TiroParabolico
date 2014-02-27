@@ -302,6 +302,7 @@ public void grabaArchivo() throws IOException{
             if (!pausa) {
                 pausa = true;
                 pelota.freeze();
+                // Blabla new commit
             } else {
                 pausa = false;
                 pelota.unfreeze();
