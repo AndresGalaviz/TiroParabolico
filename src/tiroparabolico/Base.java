@@ -158,8 +158,8 @@ public class Base {
      * @return un objeto de la clase <code>Rectangle</code>.
      */
     public Rectangle getCentro() {
-        return new Rectangle(getPosX() + getAncho()/4, getPosY() + getAlto()/4, 
-                getAncho()/2, getAlto()/2);
+        return new Rectangle(getPosX() + getAncho()/4, getPosY() + 3*getAlto()/8, 
+                getAncho()/2, getAlto()/4);
     }
     
     /**

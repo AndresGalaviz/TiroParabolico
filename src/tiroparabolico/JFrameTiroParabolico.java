@@ -220,6 +220,7 @@ public void grabaArchivo() throws IOException{
             caidas++;
             if (caidas%3 == 0) {
                 vidas--;
+                Pelota.setAceleracion(Pelota.getAceleracion() + 50);
             }
         }
         
@@ -283,6 +284,11 @@ public void grabaArchivo() throws IOException{
             g.setColor(Color.white);
             g.drawImage(pause, canasta.getPosX()-10, canasta.getPosY()-37, this);
         }
+
+        g.setColor(Color.green);
+        g.drawString("Score: " + score, 20, 55);
+        g.setColor(Color.blue);
+        g.drawString("Caídas: " + caidas, 20, 80);
         g.setColor(Color.red);
         g.drawString(String.valueOf(score), 20, 53);
         if(instrucciones) {
