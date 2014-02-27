@@ -18,6 +18,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListener, MouseListener {
@@ -169,10 +171,14 @@ public void leeArchivo() throws IOException{
  * @throws IOException
  */
 public void grabaArchivo() throws IOException{
+    try{
 	PrintWriter fileOut = new PrintWriter(new FileWriter(nombreArchivo));
 
         fileOut.println(String.valueOf (vidas) + "," + String.valueOf(score) + "," + String.valueOf (caidas) + "," + pelota.getData());
 	fileOut.close();	
+        } catch (FileNotFoundException e){
+            
+        }
 }
 
     /**
@@ -335,6 +341,16 @@ public void grabaArchivo() throws IOException{
                instrucciones = false;
 
            }
+            
+        }
+         else if(e.getKeyCode() == KeyEvent.VK_G) {
+             if(!instrucciones) {
+                 try {
+                     grabaArchivo();
+                 } catch (IOException ex) {
+                     Logger.getLogger (JFrameTiroParabolico.class.getName()).log (Level.SEVERE, null, ex);
+                 }
+             }
             
         }
     }
