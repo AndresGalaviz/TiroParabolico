@@ -205,12 +205,7 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         
         pelota.avanza();
         if (entrando) {
-            if (pelota.getPosY() < canasta.getPosY()+2*canasta.getAlto()/3) {
-                pelota.setPosX(canasta.getPosX() + canasta.getAncho()/2 - pelota.getAncho()/2);
-            } else {
-                entrando = false;
-                pelota.reaparecer();
-            }
+            pelota.setPosX(canasta.getPosX() + canasta.getAncho()/2 - pelota.getAncho()/2);
         }
 
         //Actualiza la animación en base al tiempo transcurrido
@@ -235,10 +230,14 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         if (pelota.getPosY() > getHeight() + 10) {
             shoot.play();
             pelota.reaparecer();
-            caidas++;
-            if (caidas % 3 == 0) {
-                vidas--;
-                Pelota.setAceleracion(Pelota.getAceleracion() + 600);
+            if (entrando) {
+                entrando = false;
+            } else {
+                caidas++;
+                if (caidas % 3 == 0) {
+                    vidas--;
+                    Pelota.setAceleracion(Pelota.getAceleracion() + 400);
+                }
             }
         }
 

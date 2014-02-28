@@ -174,7 +174,7 @@ public class Pelota extends Base {
     private static Animacion crearAnimacionPelota() {
         Animacion anim = new Animacion();
         for (int i = 0; i <= 20; i++) {
-            anim.sumaCuadro (Toolkit.getDefaultToolkit ().getImage (Pelota.class.getResource ("Images/ball/basketball" + i + ".png")), 100);
+            anim.sumaCuadro (Toolkit.getDefaultToolkit ().getImage (Pelota.class.getResource ("Images/ball/basketball" + i + ".png")), 60);
         }
         return anim;
     }
