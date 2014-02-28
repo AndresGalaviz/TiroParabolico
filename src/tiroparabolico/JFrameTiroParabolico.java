@@ -39,6 +39,7 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
     private long tMensaje;
     private Image dbImage;
     private Image background;
+    private Image gameover;
     private Image instructionBack;
     private Image pause;
     private Graphics dbg;
@@ -78,6 +79,7 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         background = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/background/background.jpg"));
         pause = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/pause.png"));
         instructionBack = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/background/instrucciones.jpg"));
+        gameover = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/background/gameover.jpg"));
 
         pausa = false;
         instrucciones = false;
@@ -89,8 +91,8 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         caidas = 0;
         //Pinta el fondo del Applet de color blanco
         setBackground(Color.white);
-        shoot = new SoundClip();
-        bang = new SoundClip();
+        shoot = new SoundClip("Sounds/fail.wav");
+        bang = new SoundClip("Sounds/hoop.wav");
 
     }
 
@@ -195,10 +197,10 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         tiempoActual += tiempoTranscurrido;
         
         if (canasta.getMoveLeft()) {
-            canasta.setPosX(canasta.getPosX() - 3);
+            canasta.setPosX(canasta.getPosX() - 4);
         }
         if (canasta.getMoveRight()) {
-            canasta.setPosX(canasta.getPosX() + 3);
+            canasta.setPosX(canasta.getPosX() + 4);
         }
         
         pelota.avanza();
@@ -231,16 +233,18 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         }
 
         if (pelota.getPosY() > getHeight() + 10) {
+            shoot.play();
             pelota.reaparecer();
             caidas++;
             if (caidas % 3 == 0) {
                 vidas--;
-                Pelota.setAceleracion(Pelota.getAceleracion() + 50);
+                Pelota.setAceleracion(Pelota.getAceleracion() + 600);
             }
         }
 
         if (pelota.intersectaCentroSup(canasta) && !entrando) {
             score += 2;
+            bang.play();
             entrando = true;
         }
 
@@ -309,6 +313,10 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         if (instrucciones) {
             setBackground(Color.black);
             g.drawImage(instructionBack, 0, 0, this);    // Imagen de instrucciones
+        }
+        if(vidas<=0) {
+            pausa = true;
+            g.drawImage(gameover, 0, 0, this);    // Imagen de instrucciones
         }
     }
 
