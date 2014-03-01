@@ -26,7 +26,6 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
     private static final long serialVersionUID = 1L;
     private static final String nombreArchivo = "score.txt";
     private String[] arr;    //Arreglo del archivo divido.
-    private Vector vec;    // Objeto vector para agregar las variables.
     private Pelota pelota;
     private Canasta canasta;
     private boolean pausa;
