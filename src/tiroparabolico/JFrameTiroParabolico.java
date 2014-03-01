@@ -160,9 +160,10 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
 
         
         arr = dato.split(",");
-        vidas = (Integer.parseInt(arr[0]));
-        score =(Integer.parseInt(arr[1]));
-        caidas =(Integer.parseInt(arr[2]));
+        pausa = Boolean.parseBoolean(arr[0]);
+        vidas = (Integer.parseInt(arr[1]));
+        score =(Integer.parseInt(arr[2]));
+        caidas =(Integer.parseInt(arr[3]));
         pelota.assingData (arr);
         fileIn.close();
     }
@@ -173,13 +174,16 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
      * @throws IOException
      */
     public void grabaArchivo() throws IOException {
-        try {
-            PrintWriter fileOut = new PrintWriter(new FileWriter(nombreArchivo));
+        //guarda cuando no se encuentra en instrucciones
+        if(!instrucciones) {
+            try {
+                PrintWriter fileOut = new PrintWriter(new FileWriter(nombreArchivo));
 
-            fileOut.println(String.valueOf(vidas) + "," + String.valueOf(score) + "," + String.valueOf(caidas) + "," + pelota.getData());
-            fileOut.close();
-        } catch (FileNotFoundException e) {
+                fileOut.println(String.valueOf(pausa)+","+ String.valueOf(vidas) + "," + String.valueOf(score) + "," + String.valueOf(caidas) + "," + pelota.getData());
+                fileOut.close();
+            } catch (FileNotFoundException e) {
 
+            }
         }
     }
 

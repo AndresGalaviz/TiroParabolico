@@ -189,16 +189,16 @@ public class Pelota extends Base {
     }
     public void assingData(String[] arr) {
         
-        long dif = (Long.parseLong(arr[3]));
+        long dif = (Long.parseLong(arr[4]));
         startTime = System.currentTimeMillis() - dif;
-        vx = (Double.parseDouble(arr[4]));
-        vy = (Double.parseDouble(arr[5]));
-        x = Double.parseDouble(arr[6]);
-        y = Double.parseDouble(arr[7]);
+        vx = (Double.parseDouble(arr[5]));
+        vy = (Double.parseDouble(arr[6]));
+        x = Double.parseDouble(arr[7]);
+        y = Double.parseDouble(arr[8]);
 
     
-        aceleracion = (Double.parseDouble(arr[8]));
-        mov = Boolean.parseBoolean(arr[9]);
+        aceleracion = (Double.parseDouble(arr[9]));
+        mov = Boolean.parseBoolean(arr[10]);
         double time = (double)(System.currentTimeMillis() - startTime)/1000;
         this.setDoublePosX(x + vx * time);
         this.setDoublePosY(y - (vy*time - 0.5*aceleracion*time*time));
