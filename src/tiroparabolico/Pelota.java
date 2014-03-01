@@ -69,7 +69,9 @@ public class Pelota extends Base {
             //System.out.println("(" + getDoublePosX() + ", " + getDoublePosY() + ")");
         }
     }
-    
+    /**
+     * La pelota se mueve de acuerdo al tiempo, velocidad en X y Y, y gravedad.
+     */
     public void freeze() {
         freezeTime = System.currentTimeMillis();
     }
@@ -181,7 +183,7 @@ public class Pelota extends Base {
     
     public String getData() {
         
-        String salida = String.valueOf((System.currentTimeMillis() - startTime))+","+ String.valueOf(vx) + ",";
+        String salida = String.valueOf((System.currentTimeMillis() - startTime))+","+String.valueOf((System.currentTimeMillis() - freezeTime))+","+ String.valueOf(vx) + ",";
         salida += String.valueOf (vy) + "," + String.valueOf (x)+ ","+ String.valueOf (y)+",";
         salida += String.valueOf(aceleracion)+ ","+String.valueOf(mov) ;
         return salida;
@@ -191,14 +193,16 @@ public class Pelota extends Base {
         
         long dif = (Long.parseLong(arr[4]));
         startTime = System.currentTimeMillis() - dif;
-        vx = (Double.parseDouble(arr[5]));
-        vy = (Double.parseDouble(arr[6]));
-        x = Double.parseDouble(arr[7]);
-        y = Double.parseDouble(arr[8]);
+        long dif2 = (Long.parseLong(arr[5]));
+        freezeTime = System.currentTimeMillis() - dif2;
+        vx = (Double.parseDouble(arr[6]));
+        vy = (Double.parseDouble(arr[7]));
+        x = Double.parseDouble(arr[8]);
+        y = Double.parseDouble(arr[9]);
 
-    
-        aceleracion = (Double.parseDouble(arr[9]));
-        mov = Boolean.parseBoolean(arr[10]);
+        
+        aceleracion = (Double.parseDouble(arr[10]));
+        mov = Boolean.parseBoolean(arr[11]);
         avanza();
  
 
