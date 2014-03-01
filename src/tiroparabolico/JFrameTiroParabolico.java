@@ -31,6 +31,7 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
     private boolean pausa;
     private boolean instrucciones;
     private boolean entrando;
+    private boolean sound;
     private int vidas;
     private int score;
     private int caidas;
@@ -83,6 +84,7 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         pausa = false;
         instrucciones = false;
         entrando = false;
+        sound = true;
         tMensaje = 500;
         tiempo = System.currentTimeMillis() - tMensaje - 1;
         vidas = 5;
@@ -158,15 +160,15 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         }
         String dato = fileIn.readLine();
 
-        
         arr = dato.split(",");
         pausa = Boolean.parseBoolean(arr[0]);
         vidas = Integer.parseInt(arr[1]);
         score = Integer.parseInt(arr[2]);
         caidas = Integer.parseInt(arr[3]);
         entrando = Boolean.parseBoolean(arr[4]);
-        pelota.assingData (arr);
-        canasta.assignData (arr);
+        pelota.assingData(arr);
+        canasta.assignData(arr);
+        sound = Boolean.parseBoolean(arr[14]);
         fileIn.close();
 
     }
@@ -178,11 +180,11 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
      */
     public void grabaArchivo() throws IOException {
         //guarda cuando no se encuentra en instrucciones
-        if(!instrucciones) {
+        if (!instrucciones) {
             try {
                 PrintWriter fileOut = new PrintWriter(new FileWriter(nombreArchivo));
 
-                fileOut.println(String.valueOf(pausa)+","+ String.valueOf(vidas) + "," + String.valueOf(score) + "," + String.valueOf(caidas) + "," + String.valueOf(entrando) + "," + pelota.getData() + "," + canasta.getData()) ;
+                fileOut.println(String.valueOf(pausa) + "," + String.valueOf(vidas) + "," + String.valueOf(score) + "," + String.valueOf(caidas) + "," + String.valueOf(entrando) + "," + pelota.getData() + "," + canasta.getData() + "," + String.valueOf(sound));
                 fileOut.close();
             } catch (FileNotFoundException e) {
 
@@ -200,17 +202,17 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
 
         //Guarda el tiempo actual
         tiempoActual += tiempoTranscurrido;
-        
+
         if (canasta.getMoveLeft()) {
             canasta.setPosX(canasta.getPosX() - 4);
         }
         if (canasta.getMoveRight()) {
             canasta.setPosX(canasta.getPosX() + 4);
         }
-        
+
         pelota.avanza();
         if (entrando) {
-            pelota.setPosX(canasta.getPosX() + canasta.getAncho()/2 - pelota.getAncho()/2);
+            pelota.setPosX(canasta.getPosX() + canasta.getAncho() / 2 - pelota.getAncho() / 2);
         }
 
         //Actualiza la animación en base al tiempo transcurrido
@@ -232,8 +234,8 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
             canasta.setPosX(getWidth() - canasta.getAncho());
         }
 
-        if (pelota.getPosY() > getHeight() + 10 ) {
-            if (!entrando) {
+        if (pelota.getPosY() > getHeight() + 10) {
+            if (!entrando && sound) {
                 shoot.play();
             }
             pelota.reaparecer();
@@ -250,7 +252,9 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
 
         if (pelota.intersectaCentroSup(canasta) && !entrando) {
             score += 2;
-            bang.play();
+            if (sound) {
+                bang.play();
+            }
             entrando = true;
         }
 
@@ -320,7 +324,7 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
             setBackground(Color.black);
             g.drawImage(instructionBack, 0, 0, this);    // Imagen de instrucciones
         }
-        if(vidas<=0) {
+        if (vidas <= 0) {
             pausa = true;
             g.drawImage(gameover, 0, 0, this);    // Imagen de instrucciones
         }
@@ -350,14 +354,16 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
                 pelota.unfreeze();
             }
         } else if (e.getKeyCode() == KeyEvent.VK_C) {
-            
-                try {
-                    leeArchivo();
-                } catch (IOException ex) {
-                    Logger.getLogger(JFrameTiroParabolico.class.getName()).log(Level.SEVERE, null, ex);
-                }
+
+            try {
+                leeArchivo();
+            } catch (IOException ex) {
+                Logger.getLogger(JFrameTiroParabolico.class.getName()).log(Level.SEVERE, null, ex);
             }
-        
+        } else if (e.getKeyCode() == KeyEvent.VK_S) {
+            sound = !sound;
+        }
+
     }
 
     /**
@@ -389,7 +395,7 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
                 pelota.unfreeze();
             }
 
-        } 
+        }
     }
 
     /**
