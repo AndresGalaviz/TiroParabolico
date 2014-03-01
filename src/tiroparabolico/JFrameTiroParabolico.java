@@ -233,7 +233,9 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         }
 
         if (pelota.getPosY() > getHeight() + 10 ) {
-            shoot.play();
+            if (!entrando) {
+                shoot.play();
+            }
             pelota.reaparecer();
             if (entrando) {
                 entrando = false;
