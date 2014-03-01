@@ -45,4 +45,12 @@ public class Canasta extends Base {
     public boolean getMoveLeft() {
         return moveLeft;
     }
+    
+    public String getData() {
+        return String.valueOf(getPosX());
+    }
+    
+    public void assignData(String[] arr) {
+        setPosX(Integer.parseInt(arr[0]));
+    }
 }
