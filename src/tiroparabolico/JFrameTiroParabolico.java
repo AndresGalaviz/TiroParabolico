@@ -79,7 +79,7 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         background = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/background/background.jpg"));
         pause = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/pause.png"));
         instructionBack = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/background/instrucciones.jpg"));
-        gameover = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/background/gameover.jpg"));
+        gameover = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("Images/background/gameover2.jpg"));
 
         pausa = false;
         instrucciones = false;
