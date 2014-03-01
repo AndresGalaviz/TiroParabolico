@@ -16,12 +16,21 @@ public class Canasta extends Base {
     private boolean moveRight;
     private boolean moveLeft;
     
+    /**
+     * Metodo constructor de canasta
+     * @param posX posicion en X inicial
+     * @param posY posicion en Y inicial
+     */
     public Canasta(int posX, int posY) {
         super(posX, posY, crearAnimacionCanasta());
         moveRight = false;
         moveLeft = false;
     }
     
+    /**
+     * Regresa la animacion de la canasta
+     * @return un objeto <code>Animacion</code>
+     */
     private static Animacion crearAnimacionCanasta() {
         Animacion anim = new Animacion();
         for (int i = 0; i <= 8; i++) {
@@ -30,26 +39,50 @@ public class Canasta extends Base {
         return anim;
     }
     
+    /**
+     * Asigna a la variable <code>moveRight</code> el valor deseado.
+     * @param b el valor a asignar.
+     */
     public void setMoveRight(boolean b) {
         moveRight = b;
     }
     
+    /**
+     * Regresa el valor actual de <code>moveRight</code>
+     * @return un <code>boolean</code>
+     */
     public boolean getMoveRight() {
         return moveRight;
     }
     
+    /**
+     * Asigna a la variable <code>moveLeft</code> el valor deseado.
+     * @param b el valor a asignar.
+     */
     public void setMoveLeft(boolean b) {
         moveLeft = b;
     }
     
+    /**
+     * Regresa el valor actual de <code>moveLeft</code>
+     * @return un <code>boolean</code>
+     */
     public boolean getMoveLeft() {
         return moveLeft;
     }
     
+    /**
+     * Guarda las variables de <code>Canasta</code> que se guardaran en un archivo
+     * @return un objeto <code>String</code>
+     */
     public String getData() {
         return String.valueOf(getPosX());
     }
     
+    /**
+     * Asigna las variables leidas del archivo
+     * @param arr un arreglo de tipo <code>String</code>
+     */
     public void assignData(String[] arr) {
         setPosX(Integer.parseInt(arr[0]));
     }
