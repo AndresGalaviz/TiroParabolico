@@ -199,9 +199,7 @@ public class Pelota extends Base {
     
         aceleracion = (Double.parseDouble(arr[9]));
         mov = Boolean.parseBoolean(arr[10]);
-        double time = (double)(System.currentTimeMillis() - startTime)/1000;
-        this.setDoublePosX(x + vx * time);
-        this.setDoublePosY(y - (vy*time - 0.5*aceleracion*time*time));
+        avanza();
  
 
     }

@@ -164,6 +164,7 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         vidas = (Integer.parseInt(arr[1]));
         score =(Integer.parseInt(arr[2]));
         caidas =(Integer.parseInt(arr[3]));
+        System.out.println(caidas);
         pelota.assingData (arr);
         fileIn.close();
 
@@ -230,7 +231,7 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
             canasta.setPosX(getWidth() - canasta.getAncho());
         }
 
-        if (pelota.getPosY() > getHeight() + 10) {
+        if (pelota.getPosY() > getHeight() + 10 ) {
             shoot.play();
             pelota.reaparecer();
             if (entrando) {
@@ -345,15 +346,6 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
                 pausa = false;
                 pelota.unfreeze();
             }
-        } else if (e.getKeyCode() == KeyEvent.VK_I) {
-            if (!instrucciones) {
-                instrucciones = true;
-                pelota.freeze();
-            } else {
-                instrucciones = false;
-                pelota.unfreeze();
-            }
-
         } else if (e.getKeyCode() == KeyEvent.VK_C) {
             
                 try {
@@ -385,7 +377,16 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
                 }
             }
 
-        }
+        } else if (e.getKeyCode() == KeyEvent.VK_I) {
+            if (!instrucciones) {
+                instrucciones = true;
+                pelota.freeze();
+            } else {
+                instrucciones = false;
+                pelota.unfreeze();
+            }
+
+        } 
     }
 
     /**
