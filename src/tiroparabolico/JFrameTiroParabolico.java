@@ -349,16 +349,7 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
                 pelota.unfreeze();
             }
 
-        } else if (e.getKeyCode() == KeyEvent.VK_G) {
-            if (!instrucciones) {
-                try {
-                    grabaArchivo();
-                } catch (IOException ex) {
-                    Logger.getLogger(JFrameTiroParabolico.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-        }else if (e.getKeyCode() == KeyEvent.VK_C) {
+        } else if (e.getKeyCode() == KeyEvent.VK_C) {
             
                 try {
                     leeArchivo();
@@ -380,6 +371,15 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
             canasta.setMoveLeft(false);
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             canasta.setMoveRight(false);
+        } else if (e.getKeyCode() == KeyEvent.VK_G) {
+            if (!instrucciones) {
+                try {
+                    grabaArchivo();
+                } catch (IOException ex) {
+                    Logger.getLogger(JFrameTiroParabolico.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
         }
     }
 

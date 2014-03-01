@@ -181,23 +181,27 @@ public class Pelota extends Base {
     
     public String getData() {
         
-        String salida = String.valueOf(startTime)+","+ String.valueOf(this.getDoublePosX ())+","+ String.valueOf(this.getDoublePosY ())+ "," + String.valueOf(vx) + ",";
+        String salida = String.valueOf((System.currentTimeMillis() - startTime))+","+ String.valueOf(vx) + ",";
         salida += String.valueOf (vy) + "," + String.valueOf (x)+ ","+ String.valueOf (y)+",";
         salida += String.valueOf(aceleracion)+ ","+String.valueOf(mov) ;
         return salida;
         
     }
     public void assingData(String[] arr) {
-        startTime = (Long.parseLong(arr[3]));
-        this.setDoublePosX (Double.parseDouble(arr[4]));
-        this.setDoublePosY (Double.parseDouble(arr[5]));
-        vx = (Double.parseDouble(arr[6]));
-        vy = (Double.parseDouble(arr[7]));
-        x = (Double.parseDouble(arr[8]));
-        y = (Double.parseDouble(arr[9]));
-      
-        aceleracion = (Double.parseDouble(arr[10]));
-        mov = Boolean.parseBoolean(arr[11]);
+        
+        long dif = (Long.parseLong(arr[3]));
+        startTime = System.currentTimeMillis() - dif;
+        vx = (Double.parseDouble(arr[4]));
+        vy = (Double.parseDouble(arr[5]));
+        x = Double.parseDouble(arr[6]);
+        y = Double.parseDouble(arr[7]);
+
+    
+        aceleracion = (Double.parseDouble(arr[8]));
+        mov = Boolean.parseBoolean(arr[9]);
+        double time = (double)(System.currentTimeMillis() - startTime)/1000;
+        this.setDoublePosX(x + vx * time);
+        this.setDoublePosY(y - (vy*time - 0.5*aceleracion*time*time));
  
 
     }
