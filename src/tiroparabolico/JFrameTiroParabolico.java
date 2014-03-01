@@ -90,8 +90,8 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         caidas = 0;
         //Pinta el fondo del Applet de color blanco
         setBackground(Color.white);
-        shoot = new SoundClip("Sounds/fail.wav");
-        bang = new SoundClip("Sounds/hoop.wav");
+        shoot = new SoundClip("Sounds/failS.wav");
+        bang = new SoundClip("Sounds/hoopS.wav");
 
     }
 
