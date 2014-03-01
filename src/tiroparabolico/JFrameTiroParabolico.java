@@ -24,7 +24,7 @@ import javax.swing.JFrame;
 public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListener, MouseListener {
 
     private static final long serialVersionUID = 1L;
-    private static final String nombreArchivo = "score";
+    private static final String nombreArchivo = "score.txt";
     private String[] arr;    //Arreglo del archivo divido.
     private Vector vec;    // Objeto vector para agregar las variables.
     private Pelota pelota;
@@ -159,13 +159,12 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         }
         String dato = fileIn.readLine();
 
-        while (dato != null) {
-            arr = dato.split(",");
-            int num = (Integer.parseInt(arr[0]));
-            String nom = arr[1];
-            vec.add(nom);
-            dato = fileIn.readLine();
-        }
+        
+        arr = dato.split(",");
+        vidas = (Integer.parseInt(arr[0]));
+        score =(Integer.parseInt(arr[1]));
+        caidas =(Integer.parseInt(arr[2]));
+        pelota.assingData (arr);
         fileIn.close();
     }
 
@@ -360,7 +359,15 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
                 }
             }
 
-        }
+        }else if (e.getKeyCode() == KeyEvent.VK_C) {
+            
+                try {
+                    leeArchivo();
+                } catch (IOException ex) {
+                    Logger.getLogger(JFrameTiroParabolico.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        
     }
 
     /**
