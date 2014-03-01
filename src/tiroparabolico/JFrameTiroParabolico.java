@@ -166,6 +166,7 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         caidas =(Integer.parseInt(arr[3]));
         pelota.assingData (arr);
         fileIn.close();
+
     }
 
     /**
