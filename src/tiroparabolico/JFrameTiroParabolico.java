@@ -161,11 +161,12 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
         
         arr = dato.split(",");
         pausa = Boolean.parseBoolean(arr[0]);
-        vidas = (Integer.parseInt(arr[1]));
-        score =(Integer.parseInt(arr[2]));
-        caidas =(Integer.parseInt(arr[3]));
-        System.out.println(caidas);
+        vidas = Integer.parseInt(arr[1]);
+        score = Integer.parseInt(arr[2]);
+        caidas = Integer.parseInt(arr[3]);
+        entrando = Boolean.parseBoolean(arr[4]);
         pelota.assingData (arr);
+        canasta.assignData (arr);
         fileIn.close();
 
     }
@@ -181,7 +182,7 @@ public class JFrameTiroParabolico extends JFrame implements Runnable, KeyListene
             try {
                 PrintWriter fileOut = new PrintWriter(new FileWriter(nombreArchivo));
 
-                fileOut.println(String.valueOf(pausa)+","+ String.valueOf(vidas) + "," + String.valueOf(score) + "," + String.valueOf(caidas) + "," + pelota.getData());
+                fileOut.println(String.valueOf(pausa)+","+ String.valueOf(vidas) + "," + String.valueOf(score) + "," + String.valueOf(caidas) + "," + String.valueOf(entrando) + "," + pelota.getData() + "," + canasta.getData()) ;
                 fileOut.close();
             } catch (FileNotFoundException e) {
 

@@ -84,6 +84,6 @@ public class Canasta extends Base {
      * @param arr un arreglo de tipo <code>String</code>
      */
     public void assignData(String[] arr) {
-        setPosX(Integer.parseInt(arr[0]));
+        setPosX(Integer.parseInt(arr[13]));
     }
 }

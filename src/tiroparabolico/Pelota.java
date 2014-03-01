@@ -32,7 +32,7 @@ public class Pelota extends Base {
         super(posX, posY, crearAnimacionPelota());
         x = posX;
         y = posY;
-        freezeTime=1;
+        freezeTime = System.currentTimeMillis();
         reaparecer();
     }
 
@@ -67,7 +67,6 @@ public class Pelota extends Base {
             double time = (double)(System.currentTimeMillis() - startTime)/1000;
             setDoublePosX(x + vx * time);
             setDoublePosY(y - (vy*time - 0.5*aceleracion*time*time));
-            //System.out.println("(" + getDoublePosX() + ", " + getDoublePosY() + ")");
         }
     }
     /**
@@ -79,7 +78,6 @@ public class Pelota extends Base {
     
     public void unfreeze() {
         startTime += System.currentTimeMillis() - freezeTime;
-        freezeTime = -1;
     }
     
     /**
@@ -151,6 +149,10 @@ public class Pelota extends Base {
         setPosY(Y);
     }
     
+    /**
+     * Establece el valor de vx
+     * @param v un <code>double</code>
+     */
     public void setVx(double v) {
         vx = v;
     }
@@ -184,14 +186,9 @@ public class Pelota extends Base {
     }
     
     public String getData() {
-        long valor= -1;
-         System.out.println(freezeTime);
-        if(!(freezeTime == -1) ) {
-            valor = (System.currentTimeMillis() - freezeTime);
-        }
-        System.out.println(freezeTime);
-       
-        String salida = String.valueOf((System.currentTimeMillis() - startTime))+","+String.valueOf(valor)+","+ String.valueOf(vx) + ",";
+        long dif1 = System.currentTimeMillis() - startTime;
+        long dif2 = System.currentTimeMillis() - freezeTime;
+        String salida = String.valueOf(dif1)+","+String.valueOf(dif2)+","+ String.valueOf(vx) + ",";
         salida += String.valueOf (vy) + "," + String.valueOf (x)+ ","+ String.valueOf (y)+",";
         salida += String.valueOf(aceleracion)+ ","+String.valueOf(mov) ;
         return salida;
@@ -199,24 +196,18 @@ public class Pelota extends Base {
     }
     public void assingData(String[] arr) {
         
-        long dif = (Long.parseLong(arr[4]));
-        startTime = System.currentTimeMillis() - dif;
-        long dif2 = (Long.parseLong(arr[5]));
-        if(!(dif2 ==-1)) {
-            freezeTime = dif2;
-            startTime += System.currentTimeMillis() - freezeTime;
-            System.out.println("entro");
-        } else {
-            
-        }
-        vx = (Double.parseDouble(arr[6]));
-        vy = (Double.parseDouble(arr[7]));
-        x = Double.parseDouble(arr[8]);
-        y = Double.parseDouble(arr[9]);
+        long dif1 = Long.parseLong(arr[5]);
+        startTime = System.currentTimeMillis() - dif1;
+        long dif2 = Long.parseLong(arr[6]);
+        freezeTime = System.currentTimeMillis() - dif2;
+        vx = Double.parseDouble(arr[7]);
+        vy = Double.parseDouble(arr[8]);
+        x = Double.parseDouble(arr[9]);
+        y = Double.parseDouble(arr[10]);
 
         
-        aceleracion = (Double.parseDouble(arr[10]));
-        mov = Boolean.parseBoolean(arr[11]);
+        aceleracion = Double.parseDouble(arr[11]);
+        mov = Boolean.parseBoolean(arr[12]);
         avanza();
  
 
